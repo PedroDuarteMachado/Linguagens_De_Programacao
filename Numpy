@@ -1,0 +1,482 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPmHjhbilcTsurFutAVisIL",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/PedroDuarteMachado/Linguagens_De_Programacao/blob/main/Numpy\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**PARTE 1**"
+      ],
+      "metadata": {
+        "id": "8-JSdCBnC8lQ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "z1qkqKus-iCh",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "08b8b6e8-8ce9-492a-8296-0028ae1fce8b"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "pecas vendidas [150 120  90 210 300 250 180]\n",
+            "Faturamento diário [ 7500  6000  4500 10500 15000 12500  9000]\n",
+            "Dias com pico de produção [210 300 250]\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "\n",
+        "pecas_vendidas = np.array([150,120,90,210,300,250,180])\n",
+        "\n",
+        "print(\"pecas vendidas\", pecas_vendidas)\n",
+        "\n",
+        "faturamento = pecas_vendidas * 50\n",
+        "\n",
+        "print(\"Faturamento diário\", faturamento)\n",
+        "\n",
+        "mascara = pecas_vendidas > 200\n",
+        "dias_pico = pecas_vendidas[mascara]\n",
+        "print(\"Dias com pico de produção\", dias_pico)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**PARTE 2**"
+      ],
+      "metadata": {
+        "id": "5UH9SSRrDECX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as pd\n",
+        "\n",
+        "vendas = np.array([\n",
+        "    [200,220,np.nan,250],\n",
+        "    [150,180,160,190],\n",
+        "    [300,310,290,330]\n",
+        "    ])\n",
+        "print(vendas)\n",
+        "\n",
+        "total_por_loja = np.nansum(vendas, axis=1)\n",
+        "print(\"\\nTotal de vendas por loja\", total_por_loja)\n",
+        "\n",
+        "media_por_loja = np.nanmean(vendas, axis=1)\n",
+        "print(\"\\nMédia de vendas por loja\", media_por_loja)\n",
+        "\n",
+        "situacao_meta = np.where(\n",
+        "    vendas >= 200,\n",
+        "    \"Meta cumprida\",\n",
+        "    \"Meta não cumprida\"\n",
+        ")\n",
+        "print(\"\\n Situação da meta:\")\n",
+        "print(situacao_meta)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "UMarmFAjDDeW",
+        "outputId": "763b7cab-b661-4743-f57b-ef3f3cbfe0ac"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[[200. 220.  nan 250.]\n",
+            " [150. 180. 160. 190.]\n",
+            " [300. 310. 290. 330.]]\n",
+            "\n",
+            "Total de vendas por loja [ 670.  680. 1230.]\n",
+            "\n",
+            "Média de vendas por loja [223.33333333 170.         307.5       ]\n",
+            "\n",
+            " Situação da meta:\n",
+            "[['Meta cumprida' 'Meta cumprida' 'Meta não cumprida' 'Meta cumprida']\n",
+            " ['Meta não cumprida' 'Meta não cumprida' 'Meta não cumprida'\n",
+            "  'Meta não cumprida']\n",
+            " ['Meta cumprida' 'Meta cumprida' 'Meta cumprida' 'Meta cumprida']]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**PARTE 3**"
+      ],
+      "metadata": {
+        "id": "VpFhInnXFOkQ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "rng = np.random.default_rng(42)\n",
+        "\n",
+        "departamentos = np.array([\n",
+        "     \"Eletrônicos\",\n",
+        "     \"Roupas\",\n",
+        "     \"Casa\"\n",
+        " ])\n",
+        "\n",
+        "vendas_clientes = rng.choice(departamentos, size=50)\n",
+        "\n",
+        "print(\"Amostra de vendas: \")\n",
+        "\n",
+        "print(vendas_clientes)\n",
+        "\n",
+        "categorias, quantidades = np.unique(\n",
+        "    vendas_clientes,\n",
+        "    return_counts=True\n",
+        ")\n",
+        "\n",
+        "print(\"\\n Volume de vendas por departamento: \")\n",
+        "\n",
+        "for categoria, quantidade in zip(categorias, quantidades):\n",
+        "  print(categoria, \":\", quantidade)\n",
+        "\n",
+        "\n",
+        "faturamento_campanhas = np.array([\n",
+        "    12000,\n",
+        "    45000,\n",
+        "    23000,\n",
+        "    89000,\n",
+        "    31000\n",
+        "])\n",
+        "\n",
+        "indice_campea = np.argmax(faturamento_campanhas)\n",
+        "\n",
+        "print(\"\\nÍndice da campanha campeã: \")\n",
+        "print(indice_campea)\n",
+        "\n",
+        "print(\"\\nFaturamento da campanha campeã: \")\n",
+        "print(faturamento_campanhas[indice_campea])\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "s72j5DK7FSSo",
+        "outputId": "601f8221-bf47-42e6-897f-f2e5d4880972"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Amostra de vendas: \n",
+            "['Eletrônicos' 'Casa' 'Roupas' 'Roupas' 'Roupas' 'Casa' 'Eletrônicos'\n",
+            " 'Casa' 'Eletrônicos' 'Eletrônicos' 'Roupas' 'Casa' 'Casa' 'Casa' 'Casa'\n",
+            " 'Casa' 'Roupas' 'Eletrônicos' 'Casa' 'Roupas' 'Roupas' 'Roupas'\n",
+            " 'Eletrônicos' 'Casa' 'Casa' 'Roupas' 'Roupas' 'Casa' 'Roupas' 'Roupas'\n",
+            " 'Roupas' 'Eletrônicos' 'Eletrônicos' 'Roupas' 'Casa' 'Eletrônicos' 'Casa'\n",
+            " 'Casa' 'Eletrônicos' 'Roupas' 'Eletrônicos' 'Casa' 'Casa' 'Roupas'\n",
+            " 'Eletrônicos' 'Casa' 'Roupas' 'Casa' 'Casa' 'Casa']\n",
+            "\n",
+            " Volume de vendas por departamento: \n",
+            "Casa : 21\n",
+            "Eletrônicos : 12\n",
+            "Roupas : 17\n",
+            "\n",
+            "Índice da campanha campeã: \n",
+            "3\n",
+            "\n",
+            "Faturamento da campanha campeã: \n",
+            "89000\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Básico 1**"
+      ],
+      "metadata": {
+        "id": "6salaoKnHufo"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dias = np.arange(1,31)\n",
+        "\n",
+        "print(\"Dias do mês: \")\n",
+        "print(dias)\n",
+        "\n",
+        "metas = np.linspace(20000, 30000, 5)\n",
+        "\n",
+        "print(\"\\nMetas: \")\n",
+        "print(metas)\n",
+        "\n",
+        "estoque = np.array([10.5,20.1,30.9])\n",
+        "\n",
+        "estoque_inteiro = estoque.astype(int)\n",
+        "\n",
+        "print(\"\\nEstoque Original: \")\n",
+        "print(estoque)\n",
+        "\n",
+        "print(\"\\nEstoque convertido para inteiro: \")\n",
+        "\n",
+        "print(estoque_inteiro)\n",
+        "\n",
+        "ultimos_dias = dias[-5:][::-1]\n",
+        "\n",
+        "print(\"\\nÚltimos 5 dias do mês: \")\n",
+        "print(ultimos_dias)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vTIWWWPOH0j5",
+        "outputId": "6c22d51d-2ea3-421a-9244-fcf3f3e85179"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Dias do mês: \n",
+            "[ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24\n",
+            " 25 26 27 28 29 30]\n",
+            "\n",
+            "Metas: \n",
+            "[20000. 22500. 25000. 27500. 30000.]\n",
+            "\n",
+            "Estoque Original: \n",
+            "[10.5 20.1 30.9]\n",
+            "\n",
+            "Estoque convertido para inteiro: \n",
+            "[10 20 30]\n",
+            "\n",
+            "Últimos 5 dias do mês: \n",
+            "[30 29 28 27 26]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Intermediário 2**"
+      ],
+      "metadata": {
+        "id": "tcVANha8Ilth"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Passo 1\n",
+        "visitas = np.array([\n",
+        "    1000, 1200, 1500,\n",
+        "    1300, 1600, 1800,\n",
+        "    2000, 2200, 2500,\n",
+        "    2300, 2700, 3000\n",
+        "])\n",
+        "\n",
+        "trimestres = visitas.reshape(4,3)\n",
+        "\n",
+        "print(\"Visitas organiadas por trimestre: \")\n",
+        "print(trimestres)\n",
+        "\n",
+        "#Passo 2\n",
+        "\n",
+        "primeiro_semestre = np.array([\n",
+        "    [ 1000, 1200, 1500],\n",
+        "    [ 1300, 1600, 1800]\n",
+        "])\n",
+        "\n",
+        "segundo_semestre = np.array([\n",
+        "    [ 2000, 2200, 2500],\n",
+        "    [ 2300, 2700, 3000]\n",
+        "])\n",
+        "\n",
+        "ano_completo = np.vstack([\n",
+        "    primeiro_semestre,\n",
+        "    segundo_semestre\n",
+        "])\n",
+        "\n",
+        "print(\"Matriz do ano completo: \")\n",
+        "print(ano_completo)\n",
+        "\n",
+        "#Passo 3\n",
+        "\n",
+        "primeiro_trimestre = ano_completo[:1].copy()\n",
+        "\n",
+        "print(\"primeiro trimestre: \")\n",
+        "print(primeiro_trimestre)\n",
+        "\n",
+        "#Passo 4\n",
+        "\n",
+        "dados_achatados = ano_completo.ravel()\n",
+        "\n",
+        "print(\"Array ID: \")\n",
+        "print(dados_achatados)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "DscynxiLIuBP",
+        "outputId": "05504d42-3c68-4ce9-ec2b-88ad6bd70a66"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Visitas organiadas por trimestre: \n",
+            "[[1000 1200 1500]\n",
+            " [1300 1600 1800]\n",
+            " [2000 2200 2500]\n",
+            " [2300 2700 3000]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Avançado** **3**"
+      ],
+      "metadata": {
+        "id": "HzhJqTpfKWZU"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Passo 1\n",
+        "pontuacoes = np.array([85, 92, 78, 95, 88])\n",
+        "\n",
+        "indices_ranking = np.argsort(pontuacoes)\n",
+        "\n",
+        "print(\"Índices em ordem crescente: \")\n",
+        "print(indices_ranking)\n",
+        "\n",
+        "print(\"\\nPontuações em ordem crescente: \")\n",
+        "print(pontuacoes[indices_ranking])\n",
+        "\n",
+        "# Passo 2\n",
+        "\n",
+        "precos = np.array([100, 200, 500])\n",
+        "\n",
+        "descontos = np.array((0.10, 0.20,0.30))\n",
+        "\n",
+        "precos_coluna = precos[:, np.newaxis]\n",
+        "\n",
+        "print(\"Preços como coluna: \")\n",
+        "print(precos_coluna)\n",
+        "\n",
+        "precos_com_desconto = precos_coluna * (1 - descontos)\n",
+        "\n",
+        "print(\"\\n Preços após os descontos: \")\n",
+        "print(precos_com_desconto)\n",
+        "\n",
+        "# Passo 3\n",
+        "\n",
+        "A = np.array([\n",
+        "    [2, 1],\n",
+        "    [1, -1]\n",
+        "])\n",
+        "\n",
+        "b = np.array([\n",
+        "    500,\n",
+        "    100\n",
+        "])\n",
+        "\n",
+        "solucao = np.linalg.solve(A, b)\n",
+        "\n",
+        "print(\"Preço da placa robótica: \")\n",
+        "print(solucao[0])\n",
+        "\n",
+        "print(\"\\nPreço do sensor: \")\n",
+        "print(solucao[1])"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "collapsed": true,
+        "id": "ZShkSKEWJXcD",
+        "outputId": "b7e3f00d-a858-4644-d152-58901977d36b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Índices em ordem crescente: \n",
+            "[2 0 4 1 3]\n",
+            "\n",
+            "Pontuações em ordem crescente: \n",
+            "[78 85 88 92 95]\n",
+            "Preços como coluna: \n",
+            "[[100]\n",
+            " [200]\n",
+            " [500]]\n",
+            "\n",
+            " Preços após os descontos: \n",
+            "[[ 90.  80.  70.]\n",
+            " [180. 160. 140.]\n",
+            " [450. 400. 350.]]\n",
+            "Preço da placa robótica: \n",
+            "200.0\n",
+            "\n",
+            "Preço do sensor: \n",
+            "100.0\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
